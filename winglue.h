@@ -33,17 +33,19 @@ extern void timeradd(struct timeval *a, struct timeval *b,
 		     struct timeval *result);
 extern void timersub(struct timeval *a, struct timeval *b,
 		     struct timeval *result);
-
+			 
+#if(!defined(__MINGW32__) || !defined(__MINGW64__))
 extern TCHAR *optarg;
-extern int optind;
-
 extern int getopt(int argc, TCHAR *argv[], TCHAR *optstring);
-
+#else
+extern char *optarg;
+#endif
+extern int optind;
 extern int count_processors(void);
 
 #define PRSIZET "I"
 
-#if (!defined(strtok_r))
+#ifdef _MSC_VER
 static inline char *
 strtok_r(char *strToken, const char *strDelimit, char **context) {
 	return strtok_s(strToken, strDelimit, context);
