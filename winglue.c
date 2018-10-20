@@ -123,7 +123,7 @@ timersub(struct timeval *a, struct timeval *b, struct timeval *result)
 /*
  * getopt() for Win32 -- public domain ripped from codeproject.com
  */
-
+#if(!defined(__MINGW32__) || !defined(__MINGW64__))
 TCHAR *optarg = NULL;
 int optind = 0;
 
@@ -192,7 +192,7 @@ int getopt(int argc, TCHAR *argv[], TCHAR *optstring)
 
 	return c;
 }
-
+#endif
 /*
  * If ptw32 is being linked in as a static library, make sure that
  * its process attach function gets called before main().
