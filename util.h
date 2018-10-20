@@ -25,6 +25,19 @@
 #include <openssl/bn.h>
 #include <openssl/ec.h>
 
+#undef BIGNUM
+struct bignum_st {
+    BN_ULONG *d;                /* Pointer to an array of 'BN_BITS2' bit
+                                 * chunks. */
+    int top;                    /* Index of last used d +1. */
+    /* The next are internal book keeping for bn_expand. */
+    int dmax;                   /* Size of the d array. */
+    int neg;                    /* one if the number is negative */
+    int flags;
+};
+
+typedef struct bignum_st BIGNUM;
+
 extern const char *vg_b58_alphabet;
 extern const signed char vg_b58_reverse_map[256];
 
