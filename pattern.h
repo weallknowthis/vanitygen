@@ -24,7 +24,10 @@
 
 #include <pthread.h>
 
-#ifdef _WIN32
+#if defined( _MSC_VER ) || defined( __MINGW32__ ) || defined( __MINGW64__ )
+    #if defined( __MINGW32__ ) || defined( __MINGW64__ )
+        #include <unistd.h>
+    #endif
 #include "winglue.h"
 #else
 #define INLINE inline
@@ -51,10 +54,10 @@ struct _vg_exec_context_s {
 	EC_KEY				*vxc_key;
 	int				vxc_delta;
 	unsigned char			vxc_binres[28];
-	BIGNUM				vxc_bntarg;
-	BIGNUM				vxc_bnbase;
-	BIGNUM				vxc_bntmp;
-	BIGNUM				vxc_bntmp2;
+	BIGNUM				*vxc_bntarg;
+	BIGNUM				*vxc_bnbase;
+	BIGNUM				*vxc_bntmp;
+	BIGNUM				*vxc_bntmp2;
 
 	vg_exec_context_threadfunc_t	vxc_threadfunc;
 	pthread_t			vxc_pthread;
