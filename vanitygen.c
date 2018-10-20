@@ -89,8 +89,8 @@ vg_thread_loop(void *arg)
 		exit(1);
 	}
 
-	BN_set_word(&vxcp->vxc_bntmp, ptarraysize);
-	EC_POINT_mul(pgroup, pbatchinc, &vxcp->vxc_bntmp, NULL, NULL,
+	BN_set_word(vxcp->vxc_bntmp, ptarraysize);
+	EC_POINT_mul(pgroup, pbatchinc, vxcp->vxc_bntmp, NULL, NULL,
 		     vxcp->vxc_bnctx);
 	EC_POINT_make_affine(pgroup, pbatchinc, vxcp->vxc_bnctx);
 
@@ -123,14 +123,6 @@ vg_thread_loop(void *arg)
 			/* Generate a new random private key */
 			EC_KEY_generate_key(pkey);
 			npoints = 0;
-
-			/* Determine rekey interval */
-			EC_GROUP_get_order(pgroup, &vxcp->vxc_bntmp,
-					   vxcp->vxc_bnctx);
-			BN_sub(&vxcp->vxc_bntmp2,
-			       &vxcp->vxc_bntmp,
-			       EC_KEY_get0_private_key(pkey));
-
 			rekey_at = rekey_max;
 
 			EC_POINT_copy(ppnt[0], EC_KEY_get0_public_key(pkey));
