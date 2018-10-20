@@ -1,3 +1,7 @@
+A work-in-progress version that has been updated to compile against the latest OpenSSL library as well future updates to support SegWit(bech32) and compressed keys.
+After OpenSSL 1.0.2, the interface has changed for BIGNUM, BIGNUM data structures cannot be allocated on the stack and require dynamic allocation now.
+
+------------------------------ORIGINAL------------------------------
 I'd like to present a standalone command line vanity address generator 
 called vanitygen.
 
